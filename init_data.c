@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:30:15 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 09:45:54 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:59:11 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	get_data(t_data *data, char **args)
 	data->shared_data = malloc(sizeof(t_shared_data));
 	if (!data->shared_data)
 		return (data->err_num = 8, 1);
-	gettimeofday(&data->shared_data->start_date, NULL);
+	data->shared_data->start_date = get_time_ms();
 	data->shared_data->simulation_stopped = false;
 	data->shared_data->philo_number = ft_atoi(args[1]);
 	if (data->shared_data->philo_number == 0)
@@ -32,7 +32,7 @@ int	get_data(t_data *data, char **args)
 	if (args[5])
 	{
 		data->meals_per_philo = ft_atoi(args[5]);
-		if (data->meals_per_philo == -1)
+		if (data->meals_per_philo <= 0)
 			return (data->err_num = 3, 1);
 	}
 	else
@@ -55,14 +55,14 @@ int	initializ_locks(t_data *data)
 	size_t	i;
 
 	i = 0;
-	
 	if (!mutex_init(&data->shared_data->print_mtx))
 		return (data->err_num = 5, 1);
 	if (!mutex_init(&data->shared_data->stop_mtx))
 		return (data->err_num = 5, 1);
 	if (!mutex_init(&data->shared_data->meal_count_mtx))
 		return (data->err_num = 5, 1);
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->shared_data->philo_number);
+	data->forks = malloc(sizeof(pthread_mutex_t)
+			* data->shared_data->philo_number);
 	if (!data->forks)
 		return (data->err_num = 8, 1);
 	while (i < data->shared_data->philo_number)
@@ -81,6 +81,7 @@ int	init_philo(t_data *p_data, int i)
 	p_data->philos[i].meals = 0;
 	p_data->philos[i].index = i + 1;
 	p_data->philos[i].shared_data = p_data->shared_data;
+	p_data->philos[i].last_meal_time = get_time_ms();
 	p_data->philos[i].left_forks = &p_data->forks[i];
 	if (!mutex_init(&p_data->philos[i].meal_mtx))
 		return (p_data->err_num = 5, 1);

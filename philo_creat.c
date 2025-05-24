@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:32:04 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 09:38:43 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:59:23 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ bool	simulation_stopped(t_philo *philo)
 
 void	print_philo_state(const char *state, t_philo *philo)
 {
-	struct timeval	current_time;
-	size_t			timestamp;
+	time_t	timestamp;
 
 	pthread_mutex_lock(&philo->shared_data->stop_mtx);
 	if (philo->shared_data->simulation_stopped)
@@ -33,9 +32,8 @@ void	print_philo_state(const char *state, t_philo *philo)
 		pthread_mutex_unlock(&philo->shared_data->stop_mtx);
 		return ;
 	}
-	gettimeofday(&current_time, NULL);
-	timestamp = get_timestamp(philo->shared_data->start_date);
 	pthread_mutex_lock(&philo->shared_data->print_mtx);
+	timestamp = get_time_ms() - philo->shared_data->start_date;
 	printf("%zu %zu %s\n", timestamp, philo->index, state);
 	pthread_mutex_unlock(&philo->shared_data->print_mtx);
 	pthread_mutex_unlock(&philo->shared_data->stop_mtx);
@@ -46,9 +44,6 @@ void	*handle_single_philo(t_philo *philo)
 	pthread_mutex_lock(philo->left_forks);
 	print_philo_state("taken a fork", philo);
 	ft_sleep(philo->shared_data->time_to_die, philo);
-	pthread_mutex_lock(&philo->shared_data->stop_mtx);
-	philo->shared_data->simulation_stopped = true;
-	pthread_mutex_unlock(&philo->shared_data->stop_mtx);
 	pthread_mutex_unlock(philo->left_forks);
 	return (NULL);
 }
@@ -60,15 +55,13 @@ void	*philo(void *philo_data)
 	philo = (t_philo *)philo_data;
 	if (philo->shared_data->philo_number == 1)
 		return (handle_single_philo(philo));
-	while (true)
+	while (!simulation_stopped(philo))
 	{
-		if (simulation_stopped(philo))
-			break ;
 		lock_forks(philo->left_forks, philo->right_fork, philo->index);
 		print_philo_state("taken a fork", philo);
 		print_philo_state("is eating", philo);
 		pthread_mutex_lock(&philo->meal_mtx);
-		philo->last_meal_time = get_timestamp(philo->shared_data->start_date);
+		philo->last_meal_time = get_time_ms();
 		pthread_mutex_unlock(&philo->meal_mtx);
 		ft_sleep(philo->shared_data->time_to_eat, philo);
 		unlock_forks(philo->left_forks, philo->right_fork, philo->index);
@@ -78,6 +71,8 @@ void	*philo(void *philo_data)
 		print_philo_state("is sleeping", philo);
 		ft_sleep(philo->shared_data->time_to_sleep, philo);
 		print_philo_state("is thinking", philo);
+		// ft_sleep(calc_think_time(philo) * 700, philo);
+		usleep(500);
 	}
 	return (NULL);
 }

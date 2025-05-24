@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:51:59 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 10:03:45 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:44:11 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct shared_data_s
 	size_t			time_to_die;
 	size_t			time_to_sleep;
 	pthread_mutex_t	meal_count_mtx;
-	struct timeval	start_date;
+	time_t			start_date;
 	bool			philo_is_dead;
 	bool			simulation_stopped;
 	pthread_mutex_t	stop_mtx;
@@ -53,7 +53,7 @@ typedef struct philo_s
 	pthread_mutex_t	*right_fork;
 	t_shared_data	*shared_data;
 	int				meals;
-	size_t			last_meal_time;
+	time_t			last_meal_time;
 	pthread_mutex_t	meal_mtx;
 
 }					t_philo;
@@ -82,19 +82,19 @@ int					creat_philos(t_data *p_data);
 void				*monitor_thread(void *arg);
 int					wait_monitor(t_data *data);
 int					monitor_philos(t_data *data);
-size_t				get_timestamp(struct timeval start);
 void				print_philo_state(const char *state, t_philo *philo);
 void				*philo(void *philo_data);
 int					get_philo_meals(t_data *data, size_t i);
 int					quit_in_err(t_data *data, int err_num);
-void				ft_sleep(size_t time, t_philo *philo);
 void				unlock_forks(pthread_mutex_t *l_fork,
 						pthread_mutex_t *r_fork, size_t philo_nbr);
 void				lock_forks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork,
 						size_t philo_nbr);
 bool				simulation_stopped(t_philo *philo);
+time_t				get_time_ms(void);
+time_t				calc_think_time(t_philo *philo);
 // utils librarys :
-
+void				ft_sleep(size_t time, t_philo *philo);
 int					ft_isdigit(int c);
 int					ft_atoi(char *str);
 size_t				ft_strlen(const char *s);

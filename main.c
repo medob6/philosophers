@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 18:42:09 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 09:45:04 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/24 19:05:19 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,17 @@ int	main(int ac, char *av[])
 {
 	t_data	*data;
 
-	
 	if (check_args(ac, av))
 		return (1);
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (quit_in_err(data, 8));
-	
 	get_data(data, av);
 	if (data->err_num)
 		return (quit_in_err(data, data->err_num));
-	
 	initializ_locks(data);
 	if (data->err_num)
 		return (quit_in_err(data, data->err_num));
-	
 	creat_philos(data);
 	if (data->err_num)
 		return (quit_in_err(data, data->err_num));
@@ -70,7 +66,6 @@ int	main(int ac, char *av[])
 	cleanup(data);
 	return (0);
 }
-// TODO : make ft_sleep : sleeping in chunks and checking death while sleeping
-// 2
-// TODO : fix starvation problem by sleeping the philos that have more time have waited less on the forks
-// 3
+
+// TODO : cleanup segfault in large num of thread ; in cleanup data , if a philo failed to creat test : ./philo 19999 180 60 60 
+// TODO : test usleep(500) ; thinking

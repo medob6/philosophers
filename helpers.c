@@ -6,11 +6,20 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 09:21:36 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 09:22:42 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:19:14 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+time_t	calc_think_time(t_philo *philo)
+{
+	time_t	think_time;
+
+	think_time = philo->shared_data->time_to_die / 1000 - (get_time_ms()
+			- philo->last_meal_time);
+	return (think_time);
+}
 
 void	lock_forks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork,
 		size_t philo_nbr)
@@ -42,13 +51,12 @@ void	unlock_forks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork,
 	}
 }
 
-size_t	get_timestamp(struct timeval start)
+time_t	get_time_ms(void)
 {
-	struct timeval	current;
+	struct timeval	tv;
 
-	gettimeofday(&current, NULL);
-	return ((current.tv_sec - start.tv_sec) * 1000 + (current.tv_usec
-			- start.tv_usec) / 1000);
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
 int	get_philo_meals(t_data *data, size_t i)

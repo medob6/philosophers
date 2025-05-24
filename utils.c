@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:09:41 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 10:15:29 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:17:13 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,13 @@ int	ft_atoi(char *str)
 	}
 	return ((int)res * sign);
 }
-size_t	get_time_ms(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
 
 void	ft_sleep(size_t duration, t_philo *philo)
 {
 	size_t	start;
-	size_t	now;
 
 	start = get_time_ms();
-	while (true)
-	{
-		if (simulation_stopped(philo))
-			break ;
-		now = get_time_ms();
-		if ((now - start) >= duration / 1000)
-			break ;
-		usleep(1000); // sleep in small chunks (1000 microseconds) = 1 mili sec
-	}
+	duration /= 1000;
+	while (get_time_ms() - start < duration && !simulation_stopped(philo))
+		usleep(100);
 }

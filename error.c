@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:27:54 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 09:25:55 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:51:17 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,18 @@ void	unvalid_args(int err_n)
 			RED);
 	if (err_n == 3)
 		print_err("Error:\nNumber_of_times_each_philo_must_eat must be "
-			"in range of intgers. Expected format:\n\n",
+			"a positive intger. Expected format:\n\n",
 			RED);
 	if (err_n == 4)
 		print_err("Error:\nYou should have at least one philosopher. "
 			"Expected format:\n\n",
 			RED);
 	if (err_n == 5)
-		return (print_err("Failed to initialize mutex", NULL));
+		return (print_err("Failed to initialize mutex\n", RED));
 	if (err_n == 6)
-		return (print_err("Failed to creat thread", NULL));
+		return (print_err("Failed to creat thread\n", RED));
 	if (err_n == 7)
-		return (print_err("Failure : pthread_join", NULL));
+		return (print_err("Failure : pthread_join\n", RED));
 	print_err("./philo <number_of_philosophers> <time_to_die> <time_to_eat> "
 		"<time_to_sleep> [number_of_times_each_philo_must_eat]\n\n",
 		GREEN);

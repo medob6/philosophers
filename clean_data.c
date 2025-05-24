@@ -6,13 +6,13 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:31:47 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 09:43:59 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/24 19:01:28 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	destroy_forks(t_data *data)
+void	destroy_forks(t_data *data)
 {
 	size_t	i;
 
@@ -20,11 +20,14 @@ static void	destroy_forks(t_data *data)
 		return ;
 	i = 0;
 	while (i < data->shared_data->philo_number)
-		pthread_mutex_destroy(&data->forks[i++]);
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
 	free(data->forks);
 }
 
-static void	destroy_philos(t_data *data)
+void	destroy_philos(t_data *data)
 {
 	size_t	i;
 
@@ -32,7 +35,10 @@ static void	destroy_philos(t_data *data)
 		return ;
 	i = 0;
 	while (i < data->shared_data->philo_number)
-		pthread_mutex_destroy(&data->philos[i++].meal_mtx);
+	{
+		pthread_mutex_destroy(&data->philos[i].meal_mtx);
+		i++;
+	}
 	free(data->philos);
 }
 
