@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:27:54 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 18:51:17 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:13:32 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 int	quit_in_err(t_data *data, int err_num)
 {
+	if (data->err_num == 6)
+	{
+		wait_monitor(data);
+		wait_philos(data);
+	}
 	unvalid_args(err_num);
 	cleanup(data);
 	return (1);

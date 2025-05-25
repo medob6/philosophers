@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:51:59 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 17:44:11 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:49:04 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct philo_s
 	int				meals;
 	time_t			last_meal_time;
 	pthread_mutex_t	meal_mtx;
+	bool			thread_created;
 
 }					t_philo;
 
@@ -66,7 +67,7 @@ typedef struct data_s
 	t_philo			*philos;
 	int				meals_per_philo;
 	int				err_num;
-
+	bool			monitor_created;
 }					t_data;
 
 void				print_err(const char *err, const char *color);
@@ -93,6 +94,9 @@ void				lock_forks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork,
 bool				simulation_stopped(t_philo *philo);
 time_t				get_time_ms(void);
 time_t				calc_think_time(t_philo *philo);
+int					wait_philos(t_data *data);
+int					creat_philo_trd(t_data *p_data, int i);
+
 // utils librarys :
 void				ft_sleep(size_t time, t_philo *philo);
 int					ft_isdigit(int c);

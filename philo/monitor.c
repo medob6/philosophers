@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:53:27 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 18:55:24 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:39:20 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int	monitor_philos(t_data *data)
 
 	s = pthread_create(&(data->monitor_id), NULL, monitor_thread, data);
 	if (s != 0)
-		return (data->err_num = 6, 1);
+		return (data->err_num = 6, data->shared_data->simulation_stopped = true,
+			1);
+	data->monitor_created = true;
 	return (0);
 }

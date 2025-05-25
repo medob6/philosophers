@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 18:42:09 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 19:05:19 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/25 15:43:44 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ int	wait_philos(t_data *data)
 	size_t	i;
 	int		s;
 
+	s = 0;
 	i = 0;
 	while (i < data->shared_data->philo_number)
 	{
-		s = pthread_join(data->philos[i].id, NULL);
+		if (data->philos[i].thread_created)
+			s = pthread_join(data->philos[i].id, NULL);
 		if (s != 0)
 			return (data->err_num = 7, 1);
 		i++;
@@ -32,7 +34,9 @@ int	wait_monitor(t_data *data)
 {
 	int	s;
 
-	s = pthread_join(data->monitor_id, NULL);
+	s = 0;
+	if (data->monitor_created)
+		s = pthread_join(data->monitor_id, NULL);
 	if (s != 0)
 		return (data->err_num = 7, 1);
 	return (0);
@@ -67,5 +71,4 @@ int	main(int ac, char *av[])
 	return (0);
 }
 
-// TODO : cleanup segfault in large num of thread ; in cleanup data , if a philo failed to creat test : ./philo 19999 180 60 60 
-// TODO : test usleep(500) ; thinking
+//!DO :  testing

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:31:47 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 19:01:28 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:46:50 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	destroy_philos(t_data *data)
 	free(data->philos);
 }
 
-static void	destroy_shared_data(t_shared_data *shared)
+void	destroy_shared_data(t_shared_data *shared)
 {
 	if (!shared)
 		return ;

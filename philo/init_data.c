@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:30:15 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 18:59:11 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:46:40 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	get_data(t_data *data, char **args)
 {
+	data->monitor_created = false;
 	data->shared_data = NULL;
 	data->forks = NULL;
 	data->philos = NULL;
@@ -73,12 +74,25 @@ int	initializ_locks(t_data *data)
 	return (0);
 }
 
-int	init_philo(t_data *p_data, int i)
+int	creat_philo_trd(t_data *p_data, int i)
 {
 	int	s;
+
+	s = pthread_create(&(p_data->philos[i].id), NULL, philo,
+			&p_data->philos[i]);
+	if (s != 0)
+		return (p_data->err_num = 6,
+			p_data->shared_data->simulation_stopped = true, 1);
+	p_data->philos[i].thread_created = true;
+	return (0);
+}
+
+int	init_philo(t_data *p_data, int i)
+{
 	int	p_nb;
 
 	p_data->philos[i].meals = 0;
+	p_data->philos[i].thread_created = false;
 	p_data->philos[i].index = i + 1;
 	p_data->philos[i].shared_data = p_data->shared_data;
 	p_data->philos[i].last_meal_time = get_time_ms();
@@ -93,9 +107,5 @@ int	init_philo(t_data *p_data, int i)
 		else
 			p_data->philos[i].right_fork = &p_data->forks[i - 1];
 	}
-	s = pthread_create(&(p_data->philos[i].id), NULL, philo,
-			&p_data->philos[i]);
-	if (s != 0)
-		return (p_data->err_num = 6, 1);
 	return (0);
 }

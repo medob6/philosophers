@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:32:04 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 18:59:23 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/25 15:44:05 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	*philo(void *philo_data)
 		ft_sleep(philo->shared_data->time_to_sleep, philo);
 		print_philo_state("is thinking", philo);
 		// ft_sleep(calc_think_time(philo) * 700, philo);
+		// TODO : optimize this thinking time
 		usleep(500);
 	}
 	return (NULL);
@@ -89,6 +90,12 @@ int	creat_philos(t_data *p_data)
 	while (i < p_data->shared_data->philo_number)
 	{
 		if (init_philo(p_data, i++))
+			return (1);
+	}
+	i = 0;
+	while (i < p_data->shared_data->philo_number)
+	{
+		if (creat_philo_trd(p_data, i++))
 			return (1);
 	}
 	return (0);
