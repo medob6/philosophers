@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 18:42:09 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/25 15:43:44 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:59:44 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,4 @@ int	main(int ac, char *av[])
 	return (0);
 }
 
-//!DO :  testing
+//TODO :  i should wait for all threads to becreated then start , to make them start at the same time

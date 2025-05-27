@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:09:41 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/25 15:54:24 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:43:56 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	ft_atoi(char *str)
 	sign = 1;
 	i = 0;
 	res = 0;
+	if (!str)
+		return (-1);
 	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
@@ -56,12 +58,12 @@ int	ft_atoi(char *str)
 	return ((int)res * sign);
 }
 
-// void	ft_sleep(size_t duration, t_philo *philo)
-// {
-// 	size_t	start;
+void	ft_sleep(size_t duration, t_philo *philo)
+{
+	size_t	start;
 
-// 	start = get_time_ms();
-// 	duration /= 1000;
-// 	while (get_time_ms() - start < duration && !simulation_stopped(philo))
-// 		usleep(100);
-// }
+	start = get_time_ms();
+	duration /= 1000;
+	while (get_time_ms() - start < duration && !simulation_stopped(philo))
+		usleep(100);
+}

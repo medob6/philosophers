@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "stdbool.h": "c",
+        "time.h": "c",
+        "philo_bonus.h": "c"
+    }
+}
