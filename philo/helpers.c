@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 09:21:36 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/24 17:19:14 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:14:45 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ time_t	calc_think_time(t_philo *philo)
 {
 	time_t	think_time;
 
-	think_time = philo->shared_data->time_to_die / 1000 - (get_time_ms()
-			- philo->last_meal_time);
+	think_time = philo->shared_data->time_to_die / 1000 - (get_time_ms() - philo->last_meal_time);
 	return (think_time);
 }
 

@@ -1,7 +1,7 @@
 NAME	= philo_bonus
 CC		= cc
 
-SRC		= main.c utils.c parser.c clean.c monitor.c error.c
+SRC		= main.c utils.c parser.c clean.c  error.c
 
 FLAGS	= -Wall -Werror -Wextra -pthread -g
 TSAN	= -fsanitize=thread 

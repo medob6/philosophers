@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:32:04 by mbousset          #+#    #+#             */
-/*   Updated: 2025/05/26 16:25:57 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:59:20 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	*philo(void *philo_data)
 	{
 		lock_forks(philo->left_forks, philo->right_fork, philo->index);
 		print_philo_state("taken a fork", philo);
+		print_philo_state("taken a fork", philo);
 		print_philo_state("is eating", philo);
 		pthread_mutex_lock(&philo->meal_mtx);
 		philo->last_meal_time = get_time_ms();
@@ -71,9 +72,10 @@ void	*philo(void *philo_data)
 		print_philo_state("is sleeping", philo);
 		ft_sleep(philo->shared_data->time_to_sleep, philo);
 		print_philo_state("is thinking", philo);
-		// ft_sleep(calc_think_time(philo) * 700, philo);
-		// TODO : optimize this thinking time
-		usleep(500);
+		if (philo->shared_data->time_to_eat > philo->shared_data->time_to_sleep)
+			ft_sleep(calc_think_time(philo) * 700, philo);
+		else
+			usleep(500);
 	}
 	return (NULL);
 }
